@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { Auth } from './components/Auth'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Tasks } from './components/Tasks'
+import { Task } from './components/Task'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [state, setState] = useState({ 
+        isAuth: false, 
+        domain: null, 
+        tasks: [],
+        error: null
+    })
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route exact path='/' element={<Auth state={state} setState={setState} />} />
+                <Route path='/tasks' element={<Tasks state={state} setState={setState} />} />
+                <Route path='/tasks/:id' element={<Task tasks={state.tasks} isAuth={state.isAuth} />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
-export default App;
+export default App
